@@ -37,3 +37,13 @@ Similar action without clearing::
 	notes = cnotes.get()
 	for note in notes:
 		print note
+		
+You can also access cnotes from the request object::
+
+	def my_view(request):
+		
+		messages = request.cnotes
+		
+		return render_to_response( 'my_view.html'), {
+			'messages': messages,
+		})
