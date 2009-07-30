@@ -11,6 +11,8 @@ class CnotesHandlerMiddleware(object):
         else:
             cnotes.cnotes = []
             
+        request.cnotes = cnotes.cnotes
+            
     def process_response(self, request, response):
         import cnotes
         data = cnotes.cnotes + cnotes.new_cnotes
