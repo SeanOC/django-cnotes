@@ -15,8 +15,6 @@ def get():
 def get_and_clear():
     cnotes = globals()['cnotes']
     new_cnotes = globals()['new_cnotes']
-    print cnotes
-    print new_cnotes
     retval = deepcopy(cnotes)
     globals()['cnotes'] = []
     
