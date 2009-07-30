@@ -2,7 +2,11 @@
 Django Cnotes
 =============
 
-Django cnotes provides a simple cookie based user notification system.
+Django cnotes provides a simple cookie based user notification system.  
+
+Why not use Django's own `messaging system <http://docs.djangoproject.com/en/dev/topics/auth/#messages>`_ or `django-notification <http://github.com/jtauber/django-notification/tree/master>`_?  While both good solutions, they are a bit more heavy weight than cnotes.  Specifically they can only send messages to logged in users and they involve hitting the database to find any queued messages.  
+
+Cntoes is different in that it keeps all messaging information in cookies and memory.  This way it can send notifications to both authenticated and anonymous users, without ever touching the database.
 
 
 Installation
