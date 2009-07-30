@@ -8,8 +8,8 @@ Django cnotes provides a simple cookie based user notification system.
 Installation
 ============
 
-1. Add the `cnotes` directory to your python path.
-1. Add `cnotes.middleware.CnotesHandlerMiddleware` to the `MIDDLEWARE_CLASSES` variable in your `settings.py` file.
+	1. Add the `cnotes` directory to your python path.
+	2. Add `cnotes.middleware.CnotesHandlerMiddleware` to the `MIDDLEWARE_CLASSES` variable in your `settings.py` file.
 
 
 Usage
