@@ -9,7 +9,7 @@ setup(
     author_email='sean.b.oconnor@gmail.com',
     url='http://github.com/SeanOC/django-cnotes/tree/master',
     packages=find_packages(),
-    keywords='django,middleware,cookies,messaging,notifications'
+    keywords='django,middleware,cookies,messaging,notifications',
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
