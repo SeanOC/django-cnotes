@@ -42,6 +42,11 @@ class CnotesTests(TestCase):
         request.COOKIES['cnotes'] = self.signed
         return request
         
+    def _get_tampered_cookie_request(self):
+        request = HttpRequest()
+        request.COOKIES['cnotes'] = self.signed + 'asdfgasdf2034sdfas'
+        return request
+        
     def _get_response(self):
         return HttpResponse()
         
@@ -89,4 +94,11 @@ class CnotesTests(TestCase):
         response = mware.process_response(request, orig_response)
         self.assertEquals(response.cookies[self.key].key, self.key)
         self.assertEquals(response.cookies[self.key].value, self.empty_signed)
+        
+    def testTamperedCookie(self):
+        mware = CnotesHandlerMiddleware()
+        request = self._get_tampered_cookie_request()
+        mware.process_request(request)
+        self.assertEquals(request.cnotes, [])
+        
         
