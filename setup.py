@@ -3,14 +3,14 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-cnote',
-    version='0.2.0',
+    version='0.3.0',
     description='Django cnotes provides a simple cookie based user notification system.',
     author="Sean O'Connor",
     author_email='sean.b.oconnor@gmail.com',
     url='http://github.com/SeanOC/django-cnotes/tree/master',
     packages=find_packages(),
+    keywords='django,middleware,cookies,messaging,notifications'
     classifiers=[
-        'Development Status :: 3 - Alpha',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
