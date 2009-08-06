@@ -33,7 +33,7 @@ class CnotesHandlerMiddleware(object):
         data = cnotes.new_cnotes
         signed_data = self.sign('cnotes', base64.urlsafe_b64encode(Pickle.dumps(data)))
         response.set_cookie('cnotes', signed_data)
-        auto_clear = getattr(settings, 'CNOTE_AUTO_CLEAR', True)
+        auto_clear = getattr(settings, 'CNOTES_AUTO_CLEAR', True)
         if auto_clear and not request.is_ajax():
             cnotes.new_cnotes = []
         
