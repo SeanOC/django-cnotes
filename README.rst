@@ -47,3 +47,9 @@ You can also access cnotes from the request object::
 		return render_to_response( 'my_view.html'), {
 			'messages': messages,
 		})
+		
+Settings
+========
+
+	CNOTES_AUTO_CLEAR
+		If set to ``True`` (default) the cnotes middlware will clear messages one they have been made available on a non-ajax request object.
