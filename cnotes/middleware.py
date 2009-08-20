@@ -30,12 +30,13 @@ class CnotesHandlerMiddleware(object):
 
     def process_response(self, request, response):
         import cnotes
+        auto_clear = getattr(settings, 'CNOTES_AUTO_CLEAR', True)
+        if auto_clear and (not request.is_ajax()) and response.status_code == 200:
+            cnotes.new_cnotes = []
+
         data = cnotes.new_cnotes
         signed_data = self.sign('cnotes', base64.urlsafe_b64encode(Pickle.dumps(data)))
         response.set_cookie(key='cnotes', value=signed_data, path=settings.SESSION_COOKIE_PATH, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE)
-        auto_clear = getattr(settings, 'CNOTES_AUTO_CLEAR', True)
-        if auto_clear and not request.is_ajax():
-            cnotes.new_cnotes = []
 
         return response
 
