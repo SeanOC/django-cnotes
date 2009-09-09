@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='django-cnote',
+    name='django-cnotes',
     version='0.3.1',
     description='Django cnotes provides a simple cookie based user notification system.',
     author="Sean O'Connor",
