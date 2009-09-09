@@ -10,7 +10,7 @@ setup(
     url='http://github.com/SeanOC/django-cnotes/tree/master',
     packages=find_packages(),
     keywords='django,middleware,cookies,messaging,notifications',
-    license='BSD'
+    license='BSD',
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
