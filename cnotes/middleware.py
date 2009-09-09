@@ -11,7 +11,7 @@ import copy, cPickle as Pickle
 from django.core.exceptions import SuspiciousOperation
 from django.conf import settings
 
- 
+
 class CnotesHandlerMiddleware(object):
     regex = re.compile(r'(?:([0-9a-f]+):)?(.*)')
     def process_request(self, request):
@@ -25,18 +25,19 @@ class CnotesHandlerMiddleware(object):
                 cnotes.cnotes = []
         else:
             cnotes.cnotes = []
-            
+
         request.cnotes = cnotes.cnotes
-            
+
     def process_response(self, request, response):
         import cnotes
+        auto_clear = getattr(settings, 'CNOTES_AUTO_CLEAR', True)
+        if auto_clear and (not request.is_ajax()) and response.status_code == 200:
+            cnotes.new_cnotes = []
+
         data = cnotes.new_cnotes
         signed_data = self.sign('cnotes', base64.urlsafe_b64encode(Pickle.dumps(data)))
-        response.set_cookie('cnotes', signed_data)
-        auto_clear = getattr(settings, 'CNOTES_AUTO_CLEAR', True)
-        if auto_clear and not request.is_ajax():
-            cnotes.new_cnotes = []
-        
+        response.set_cookie(key='cnotes', value=signed_data, path=settings.SESSION_COOKIE_PATH, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE)
+
         return response
 
     # The following are borrowed from Gulopine's django-signedcookies project
@@ -47,7 +48,7 @@ class CnotesHandlerMiddleware(object):
 
     def sign(self, key, unsigned_value):
         return '%s:%s' % (self.get_digest(key, unsigned_value), unsigned_value)
-        
+
     def unsign(self, key, signed_value):
         signature, unsigned_value = self.regex.match(signed_value).groups()
         if not signature or self.get_digest(key, unsigned_value) != signature:
