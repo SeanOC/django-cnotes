@@ -31,15 +31,28 @@ class CnotesHandlerMiddleware(object):
     def process_response(self, request, response):
         import cnotes
         auto_clear = getattr(settings, 'CNOTES_AUTO_CLEAR', True)
-        if auto_clear and (not request.is_ajax()) and response.status_code == 200:
+        need_set_cookie = False
+        
+        new_count = len(cnotes.new_cnotes)
+        old_count = len(cnotes.cnotes)
+        if old_count > 0 or new_count > 0:
+            if auto_clear and (not request.is_ajax()) and response.status_code == 200:
+                cnotes.cnotes = cnotes.new_cnotes
+                need_set_cookie = True
+            else:
+                cnotes.cnotes += cnotes.new_cnotes
+                need_set_cookie = True
+        
+        if need_set_cookie:
+            signed_data = self.sign('cnotes', base64.urlsafe_b64encode(Pickle.dumps(cnotes.cnotes)))
+            response.set_cookie(key='cnotes', value=signed_data, path=settings.SESSION_COOKIE_PATH, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE)
             cnotes.new_cnotes = []
-
-        data = cnotes.new_cnotes
-        signed_data = self.sign('cnotes', base64.urlsafe_b64encode(Pickle.dumps(data)))
-        response.set_cookie(key='cnotes', value=signed_data, path=settings.SESSION_COOKIE_PATH, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE)
+        
 
         return response
 
+    
+        
     # The following are borrowed from Gulopine's django-signedcookies project
     # http://django-signedcookies.googlecode.com/
     def get_digest(self, key, value):

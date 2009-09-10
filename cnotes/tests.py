@@ -90,10 +90,6 @@ class CnotesTests(TestCase):
         mware.process_request(request)
         self.assertEquals(cnotes.get_and_clear(), [self.clear_text])
         self.assertEquals(cnotes.get_and_clear(), [])
-        orig_response = self._get_response()
-        response = mware.process_response(request, orig_response)
-        self.assertEquals(response.cookies[self.key].key, self.key)
-        self.assertEquals(response.cookies[self.key].value, self.empty_signed)
         
     def testTamperedCookie(self):
         mware = CnotesHandlerMiddleware()
